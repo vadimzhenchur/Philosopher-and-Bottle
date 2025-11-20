@@ -1,0 +1,15 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<h2 class="page-title">{{ category.name }}</h2>
+<div class="grid">
+  {% for p in products %}
+    <div class="grid-item">
+      <a href="{% url 'product_detail' p.slug %}">
+        {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}">{% endif %}
+        <div class="title">{{ p.title }}</div>
+        <div class="price">{{ p.price }} ₴</div>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

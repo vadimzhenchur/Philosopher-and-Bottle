@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}LA Restaurant{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'menu/style.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">LA</div>
+    <div class="icons">
+      <a href="{% url 'cart' %}" class="cart-btn">Кошик</a>
+      <a href="/admin/">Адмін</a>
+    </div>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">
+    © {{ now.year }} LA — доставка та меню
+  </footer>
+</body>
+</html>

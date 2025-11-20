@@ -1,0 +1,17 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<div class="product-detail">
+  <h2>{{ product.title }}</h2>
+  {% if product.image %}
+    <img class="large" src="{{ product.image.url }}" alt="{{ product.title }}">
+  {% endif %}
+  <p>{{ product.description }}</p>
+  <div class="buy-row">
+    <form action="{% url 'add_to_cart' product.pk %}" method="post">
+      {% csrf_token %}
+      <input name="qty" value="1" type="number" min="1" class="qty">
+      <button class="btn">Додати — {{ product.price }} ₴</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

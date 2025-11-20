@@ -1,0 +1,15 @@
+{% extends 'menu/base.html' %}
+{% block content %}
+<h2>Оформлення доставки</h2>
+
+{% if success %}
+  <p>Дякуємо! Ваше замовлення №{{ order.id }} прийняте.</p>
+  <p>Сума: {{ order.total }} ₴</p>
+{% else %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Підтвердити</button>
+  </form>
+{% endif %}
+{% endblock %}
