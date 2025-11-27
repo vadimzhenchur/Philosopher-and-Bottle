@@ -1,9 +1,21 @@
 {% extends 'menu/base.html' %}
-{% block title %}Головна — LA{% endblock %}
+
+{% block title %}Головна — Philosopher-and-Bottle{% endblock %}
+
 {% block content %}
 <h1 class="page-title">Наші фотографії / Популярні страви</h1>
 
-
-
+<div class="products-container">
+    {% for product in products %}
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <p class="price">{{ product.price }} грн</p>
+        </div>
+    {% empty %}
+        <p>Поки що немає товарів 😥</p>
+    {% endfor %}
+</div>
 
 {% endblock %}

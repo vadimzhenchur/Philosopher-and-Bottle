@@ -11,6 +11,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     title = models.CharField(max_length=200)
@@ -27,6 +28,7 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+
 class Order(models.Model):
     name = models.CharField(max_length=150)
     phone = models.CharField(max_length=30)
@@ -37,19 +39,21 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.id} — {self.name}"
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(1, default=1)
+    quantity = models.IntegerField(default=1)
+
     def __str__(self):
-        return f"Order #{self.order} — {self.quantity}"
+        return f"{self.product.title} x {self.quantity}"
+
 
 class Review(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     text_review = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)
+
     def __str__(self):
-        return
-
-
+        return f"Review #{self.id}"

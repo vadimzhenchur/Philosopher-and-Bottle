@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}LA Restaurant{% endblock %}</title>
+  <title>{% block title %}Philosopher-and-Bottle Restaurant{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'menu/style.css' %}">
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">LA</div>
+    <div class="brand">Philosopher-and-Bottle</div>
     <div class="icons">
       <a href="{% url 'cart' %}" class="cart-btn">Кошик</a>
       <a href="/admin/">Адмін</a>
@@ -19,7 +19,7 @@
     {% block content %}{% endblock %}
   </main>
   <footer class="footer">
-    © {{ now.year }} LA — доставка та меню
+    © {{ now.year }} Philosopher-and-Bottle — доставка та меню
   </footer>
 </body>
 </html>

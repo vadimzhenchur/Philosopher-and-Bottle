@@ -8,6 +8,10 @@ def index(request):
     categories = Category.objects.all()
     return render(request, 'menu/index.html', {'popular': popular, 'categories': categories})
 
+def home(request):
+    products = Product.objects.filter(available=True)
+    return render(request, 'menu/index.html', {'products': products})
+
 def category_view(request, slug):
     cat = get_object_or_404(Category, slug=slug)
     products = cat.products.filter(available=True)
@@ -17,7 +21,6 @@ def product_detail(request, slug):
     p = get_object_or_404(Product, slug=slug, available=True)
     return render(request, 'menu/product_detail.html', {'product': p})
 
-# ----- cart utils (session cart) -----
 def _get_cart(request):
     return request.session.get('cart', {})
 
