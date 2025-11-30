@@ -1,15 +1,16 @@
 {% extends 'menu/base.html' %}
-{% block content %}
-<h2>Оформлення доставки</h2>
+{% block title %}Оформлення — LA{% endblock %}
 
-{% if success %}
-  <p>Дякуємо! Ваше замовлення №{{ order.id }} прийняте.</p>
-  <p>Сума: {{ order.total }} ₴</p>
-{% else %}
-  <form method="post">
+{% block content %}
+<h1>Доставка</h1>
+
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn" type="submit">Підтвердити</button>
-  </form>
-{% endif %}
+    <input type="text" name="name" placeholder="Ваше ім’я" required><br>
+    <input type="text" name="phone" placeholder="Телефон" required><br>
+    <textarea name="address" placeholder="Адреса доставки" required></textarea><br>
+
+    <button type="submit" class="order-btn">Підтвердити</button>
+</form>
+
 {% endblock %}

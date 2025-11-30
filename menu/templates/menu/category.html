@@ -1,15 +1,53 @@
-{% extends 'menu/base.html' %}
+% extends 'menu/base.html' %}
+{% block title %}{{ category.title }} — LA{% endblock %}
+
 {% block content %}
-<h2 class="page-title">{{ category.name }}</h2>
-<div class="grid">
-  {% for p in products %}
-    <div class="grid-item">
-      <a href="{% url 'product_detail' p.slug %}">
-        {% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.title }}">{% endif %}
-        <div class="title">{{ p.title }}</div>
-        <div class="price">{{ p.price }} ₴</div>
-      </a>
+<h1>{{ category.title }}</h1>
+
+<div class="dish-list">
+
+    {% for dish in dishes %}
+    <div class="dish-card">
+        {% if dish.image %}
+        <img src="{{ dish.image.url }}" class="dish-img">
+        {% endif %}
+
+        <h3>{{ dish.title }}</h3>
+        <p>{{ dish.description }}</p>
+        <b>{{ dish.price }} грн</b>
+
+        <a href="{% url 'add_to_cart' dish.id %}" class="add-btn">Додати в кошик</a>
     </div>
-  {% endfor %}
+    {% endfor %}
+
 </div>
+
+<style>
+    .dish-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    .dish-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
+        background: white;
+        text-align: center;
+    }
+    .dish-img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .add-btn {
+        display: block;
+        margin-top: 10px;
+        padding: 8px;
+        background: black;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+</style>
+
 {% endblock %}

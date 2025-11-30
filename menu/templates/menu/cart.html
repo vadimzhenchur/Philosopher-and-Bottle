@@ -1,27 +1,47 @@
 {% extends 'menu/base.html' %}
+{% block title %}Кошик — LA{% endblock %}
+
 {% block content %}
-<h2>Кошик</h2>
-<form method="post" action="{% url 'update_cart' %}">
-  {% csrf_token %}
-  {% if items %}
-    <table class="cart-table">
-      <tr><th>Товар</th><th>Кількість</th><th>Сума</th><th></th></tr>
-      {% for it in items %}
-        <tr>
-          <td>{{ it.title }}</td>
-          <td><input type="number" name="qty_{{ it.pid }}" value="{{ it.qty }}" min="0"></td>
-          <td>{{ it.subtotal }} ₴</td>
-          <td><a href="{% url 'remove_from_cart' it.pid %}">Видалити</a></td>
-        </tr>
-      {% endfor %}
-    </table>
-    <div class="total">Всього: {{ total }} ₴</div>
-    <div class="cart-actions">
-      <button class="btn" type="submit">Оновити кошик</button>
-      <a class="btn btn-outline" href="{% url 'checkout' %}">Оформити доставку</a>
-    </div>
-  {% else %}
-    <p>Кошик порожній</p>
-  {% endif %}
-</form>
+<h1>Ваш кошик</h1>
+
+{% if items %}
+<table>
+    <tr>
+        <th>Страва</th>
+        <th>Кількість</th>
+        <th>Сума</th>
+    </tr>
+
+    {% for item in items %}
+    <tr>
+        <td>{{ item.dish.title }}</td>
+        <td>{{ item.qty }}</td>
+        <td>{{ item.subtotal }} грн</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h2>Разом: {{ total }} грн</h2>
+
+<a href="{% url 'checkout' %}" class="order-btn">Оформити замовлення</a>
+
+{% else %}
+<h3>Кошик порожній</h3>
+{% endif %}
+
+<style>
+table {
+    width: 100%;
+}
+.order-btn {
+    display: block;
+    background: green;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 6px;
+    text-decoration: none;
+}
+</style>
+
 {% endblock %}

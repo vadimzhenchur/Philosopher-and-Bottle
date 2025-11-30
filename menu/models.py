@@ -1,15 +1,27 @@
 from django.db import models
+from django.urls import reverse
+
 
 class Category(models.Model):
-    name = models.CharField(max_length=120)
+    title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
 
-    class Meta:
-        verbose_name = "Категорія"
-        verbose_name_plural = "Категорії"
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("menu_by_category", args=[self.id])
+
+
+class Dish(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    price = models.IntegerField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="dishes/", blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class Product(models.Model):

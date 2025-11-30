@@ -1,25 +1,103 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}Philosopher-and-Bottle Restaurant{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'menu/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Philosopher-and-Bottle{% endblock %}</title>
+
+    <style>
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .main-nav a {
+            margin: 0 12px;
+            text-decoration: none;
+            font-size: 18px;
+            color: black;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 10px 20px;
+            background: #f8f8f8;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .categories a {
+            padding: 8px 5px;
+            background: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            color: black;
+            font-size: 16px;
+            font-weight: 500;
+            border: 1px solid #ddd;
+        }
+
+        /* ===== Щоб контент не ліз під шапку ===== */
+        .content {
+            padding-top: 200px;
+        }
+    </style>
+
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">Philosopher-and-Bottle</div>
-    <div class="icons">
-      <a href="{% url 'cart' %}" class="cart-btn">Кошик</a>
-      <a href="/admin/">Адмін</a>
+
+
+<div class="header">
+    <div class="header-inner">
+
+
+        <div class="logo">
+
+        </div>
+
+
+        <div class="main-nav">
+            {% for link in main_links %}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+            {% endfor %}
+        </div>
     </div>
-  </header>
-  <main class="container">
-    {% block content %}{% endblock %}
-  </main>
-  <footer class="footer">
-    © {{ now.year }} Philosopher-and-Bottle — доставка та меню
-  </footer>
+
+
+    <div class="categories">
+        {% for category in categories %}
+            <a href="{{ category.get_absolute_url }}">{{ category.title }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
 </body>
 </html>

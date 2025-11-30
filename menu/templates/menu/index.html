@@ -3,19 +3,27 @@
 {% block title %}Головна — Philosopher-and-Bottle{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Наші фотографії / Популярні страви</h1>
+<h1 class="page-title">Меню / Популярні страви</h1>
 
 <div class="products-container">
     {% for product in products %}
         <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.title }}">
+            {% endif %}
+            <h3>{{ product.title }}</h3>
             <p>{{ product.description }}</p>
             <p class="price">{{ product.price }} грн</p>
+
+            <form action="{% url 'add_to_cart' product.pk %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="qty" value="1">
+                <button class="order-btn">Замовити</button>
+            </form>
         </div>
-    {% empty %}
-        <p>Поки що немає товарів 😥</p>
     {% endfor %}
 </div>
+
+<a href="{% url 'cart' %}" class="cart-link">Перейти у кошик</a>
 
 {% endblock %}
