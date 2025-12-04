@@ -1,29 +1,50 @@
 {% extends 'menu/base.html' %}
-
-{% block title %}Головна — Philosopher-and-Bottle{% endblock %}
+{% block title %}Головна — LA{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Меню / Популярні страви</h1>
+<section class="hero">
+  <div class="hero-inner">
+    <h1>LA — смачно, швидко, стильно</h1>
+    <p>Обирай категорію зверху і гортай меню. Клікни «Замовити», щоб додати у кошик.</p>
+    <a href="#menu" class="hero-cta">Переглянути меню</a>
+  </div>
+</section>
 
-<div class="products-container">
+<section id="menu" class="products-section">
+  <div class="section-header">
+    <h2>Популярні страви</h2>
+    <a href="{% url 'cart' %}" class="view-cart">Перейти до кошика</a>
+  </div>
+
+  <div class="products-grid">
     {% for product in products %}
-        <div class="product-card">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.title }}">
-            {% endif %}
-            <h3>{{ product.title }}</h3>
-            <p>{{ product.description }}</p>
-            <p class="price">{{ product.price }} грн</p>
+      <article class="card">
+        <div class="card-media">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}">
+          {% else %}
+            <div class="img-fallback">Фото</div>
+          {% endif %}
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-title">{{ product.title }}</h3>
+          <p class="card-desc">{{ product.description|truncatewords:20 }}</p>
+
+          <div class="card-meta">
+            <div class="price">{{ product.price }} ₴</div>
 
             <form action="{% url 'add_to_cart' product.pk %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" name="qty" value="1">
-                <button class="order-btn">Замовити</button>
+              {% csrf_token %}
+              <input type="hidden" name="qty" value="1">
+              <button class="order-btn">Замовити</button>
             </form>
+          </div>
         </div>
+      </article>
+    {% empty %}
+      <p class="empty">Поки що немає страв.</p>
     {% endfor %}
-</div>
-
-<a href="{% url 'cart' %}" class="cart-link">Перейти у кошик</a>
-
+  </div>
+</section>
 {% endblock %}

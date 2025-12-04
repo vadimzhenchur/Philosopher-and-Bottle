@@ -1,16 +1,31 @@
 {% extends 'menu/base.html' %}
-{% block title %}Оформлення — LA{% endblock %}
 
 {% block content %}
-<h1>Доставка</h1>
+<h1>Оформлення замовлення</h1>
 
-<form method="post">
+<form method="POST" class="checkout-form">
     {% csrf_token %}
-    <input type="text" name="name" placeholder="Ваше ім’я" required><br>
-    <input type="text" name="phone" placeholder="Телефон" required><br>
-    <textarea name="address" placeholder="Адреса доставки" required></textarea><br>
 
-    <button type="submit" class="order-btn">Підтвердити</button>
+    <input type="text" name="name" placeholder="Ваше ім'я" required>
+    <input type="text" name="phone" placeholder="Телефон" required>
+    <input type="text" name="address" placeholder="Адреса доставки" required>
+
+    <button type="submit" class="btn">Підтвердити замовлення</button>
 </form>
 
+<style>
+.checkout-form {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.checkout-form input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+</style>
 {% endblock %}

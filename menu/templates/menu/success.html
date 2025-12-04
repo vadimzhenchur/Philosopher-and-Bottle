@@ -1,2 +1,24 @@
-<h1>Дякуємо, {{ name }}!</h1>
-<p>Ваше замовлення прийнято!</p>
+{% extends 'menu/base.html' %}
+
+{% block content %}
+<h1>Дякуємо за замовлення!</h1>
+
+<div class="success-box">
+    <p>Ваше замовлення № <strong>{{ order.id }}</strong> успішно створено.</p>
+    <p>Сума: <strong>{{ order.total }} грн</strong></p>
+
+    <a href="{% url 'home' %}" class="btn">Повернутись на головну</a>
+</div>
+
+<style>
+.success-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px #0003;
+    max-width: 450px;
+    margin: 20px auto;
+    text-align: center;
+}
+</style>
+{% endblock %}

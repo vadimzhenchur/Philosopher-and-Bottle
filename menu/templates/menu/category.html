@@ -1,53 +1,35 @@
-% extends 'menu/base.html' %}
+{% extends 'menu/base.html' %}
 {% block title %}{{ category.title }} — LA{% endblock %}
 
 {% block content %}
-<h1>{{ category.title }}</h1>
+<section class="category-page">
+  <div class="category-header">
+    <h1>{{ category.title }}</h1>
+    <p class="category-sub">Гортай і замовляй — все як треба</p>
+  </div>
 
-<div class="dish-list">
-
+  <div class="products-grid">
     {% for dish in dishes %}
-    <div class="dish-card">
-        {% if dish.image %}
-        <img src="{{ dish.image.url }}" class="dish-img">
-        {% endif %}
-
-        <h3>{{ dish.title }}</h3>
-        <p>{{ dish.description }}</p>
-        <b>{{ dish.price }} грн</b>
-
-        <a href="{% url 'add_to_cart' dish.id %}" class="add-btn">Додати в кошик</a>
-    </div>
+      <article class="card">
+        <div class="card-media">
+          {% if dish.image %}
+            <img src="{{ dish.image.url }}" alt="{{ dish.title }}">
+          {% else %}
+            <div class="img-fallback">Фото</div>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{ dish.title }}</h3>
+          <p class="card-desc">{{ dish.description|truncatewords:20 }}</p>
+          <div class="card-meta">
+            <div class="price">{{ dish.price }} ₴</div>
+            <a href="{% url 'add_to_cart' dish.id %}" class="order-btn link-btn">Замовити</a>
+          </div>
+        </div>
+      </article>
+    {% empty %}
+      <p class="empty">Тут поки немає страв.</p>
     {% endfor %}
-
-</div>
-
-<style>
-    .dish-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-    .dish-card {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 15px;
-        background: white;
-        text-align: center;
-    }
-    .dish-img {
-        width: 100%;
-        border-radius: 10px;
-    }
-    .add-btn {
-        display: block;
-        margin-top: 10px;
-        padding: 8px;
-        background: black;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-    }
-</style>
-
+  </div>
+</section>
 {% endblock %}

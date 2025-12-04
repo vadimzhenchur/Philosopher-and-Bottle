@@ -1,47 +1,67 @@
 {% extends 'menu/base.html' %}
-{% block title %}Кошик — LA{% endblock %}
 
 {% block content %}
 <h1>Ваш кошик</h1>
 
-{% if items %}
-<table>
-    <tr>
-        <th>Страва</th>
-        <th>Кількість</th>
-        <th>Сума</th>
-    </tr>
+{% if cart_items %}
+<div class="cart">
+    {% for item in cart_items %}
+    <div class="cart-row">
+        <img src="{{ item.product.image.url }}" class="cart-img">
 
-    {% for item in items %}
-    <tr>
-        <td>{{ item.dish.title }}</td>
-        <td>{{ item.qty }}</td>
-        <td>{{ item.subtotal }} грн</td>
-    </tr>
+        <div>
+            <h3>{{ item.product.title }}</h3>
+            <p>{{ item.quantity }} шт</p>
+            <p>{{ item.item_total }} грн</p>
+
+            <a href="{% url 'remove_from_cart' item.product.id %}" class="remove">
+                ❌ Видалити
+            </a>
+        </div>
+    </div>
     {% endfor %}
-</table>
 
-<h2>Разом: {{ total }} грн</h2>
+    <h2 class="total">Разом: {{ total }} грн</h2>
 
-<a href="{% url 'checkout' %}" class="order-btn">Оформити замовлення</a>
+    <a href="{% url 'checkout' %}" class="btn big-btn">
+        Оформити замовлення
+    </a>
+</div>
 
 {% else %}
-<h3>Кошик порожній</h3>
+<p>Кошик порожній 😥</p>
 {% endif %}
 
 <style>
-table {
-    width: 100%;
+.cart-row {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: #fff;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px #0002;
 }
-.order-btn {
-    display: block;
-    background: green;
-    color: white;
-    padding: 12px;
-    text-align: center;
-    border-radius: 6px;
+
+.cart-img {
+    width: 120px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.remove {
+    color: red;
     text-decoration: none;
 }
-</style>
 
+.total {
+    margin-top: 20px;
+}
+
+.big-btn {
+    padding: 14px 22px;
+    font-size: 18px;
+}
+</style>
 {% endblock %}

@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Category, Product, Order
+from .models import Category, Product, Order, OrderItem
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 1
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -15,3 +19,4 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('id','name','phone','address','created_at','total')
+    inlines = [OrderItemInline]
