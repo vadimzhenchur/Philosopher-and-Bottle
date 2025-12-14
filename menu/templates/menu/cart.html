@@ -1,67 +1,51 @@
 {% extends 'menu/base.html' %}
+{% block title %}Кошик — Philosopher-and-Bottle{% endblock %}
 
 {% block content %}
-<h1>Ваш кошик</h1>
+<section class="cart-page">
+  <h1 class="page-title">Ваше замовлення</h1>
 
-{% if cart_items %}
-<div class="cart">
-    {% for item in cart_items %}
-    <div class="cart-row">
-        <img src="{{ item.product.image.url }}" class="cart-img">
+  {% if items %}
+    <div class="cart-list">
+      {% for item in items %}
+        <div class="cart-item">
+          <div class="cart-item-img">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.title }}">
+            {% else %}
+              <div class="img-placeholder">Фото</div>
+            {% endif %}
+          </div>
 
-        <div>
+          <div class="cart-item-info">
             <h3>{{ item.product.title }}</h3>
-            <p>{{ item.quantity }} шт</p>
-            <p>{{ item.item_total }} грн</p>
+            <p class="price">{{ item.product.price }} ₴</p>
+            <p class="qty">Кількість: {{ item.qty }}</p>
+          </div>
 
-            <a href="{% url 'remove_from_cart' item.product.id %}" class="remove">
-                ❌ Видалити
-            </a>
+          <div class="cart-item-total">
+            {{ item.subtotal }} ₴
+          </div>
         </div>
+      {% endfor %}
     </div>
-    {% endfor %}
 
-    <h2 class="total">Разом: {{ total }} грн</h2>
+    <div class="cart-summary">
+      <div class="total">
+        Разом: <strong>{{ total }} ₴</strong>
+      </div>
 
-    <a href="{% url 'checkout' %}" class="btn big-btn">
-        Оформити замовлення
-    </a>
-</div>
+      <div class="cart-actions">
+        <a href="{% url 'menu' %}" class="btn-secondary">← Продовжити вибір</a>
+        <a href="{% url 'checkout' %}" class="btn-primary">Оформити замовлення</a>
+      </div>
+    </div>
 
-{% else %}
-<p>Кошик порожній 😥</p>
-{% endif %}
-
-<style>
-.cart-row {
-    display: flex;
-    gap: 15px;
-    padding: 15px;
-    background: #fff;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    box-shadow: 0 2px 5px #0002;
-}
-
-.cart-img {
-    width: 120px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.remove {
-    color: red;
-    text-decoration: none;
-}
-
-.total {
-    margin-top: 20px;
-}
-
-.big-btn {
-    padding: 14px 22px;
-    font-size: 18px;
-}
-</style>
+  {% else %}
+    <div class="cart-empty">
+      <p>Ваш кошик порожній 😢</p>
+      <a href="{% url 'menu' %}" class="btn-primary">Перейти до меню</a>
+    </div>
+  {% endif %}
+</section>
 {% endblock %}

@@ -10,7 +10,7 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("menu_by_category", args=[self.id])
+        return reverse('category', args=[self.slug])
 
 
 class Dish(models.Model):

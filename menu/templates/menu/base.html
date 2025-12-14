@@ -3,48 +3,64 @@
 <html lang="uk">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% block title %}LA Restaurant{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Philosopher & Bottle{% endblock %}</title>
+
   <link rel="stylesheet" href="{% static 'menu/style.css' %}">
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-top">
-      <div class="logo-wrap">
 
-        <a href="{% url 'home' %}" class="logo">
-          <img src="{% static 'menu/5287253502323265526.jpg' %}" alt="Logo" class="logo-img">
-        </a>
-      </div>
+<header class="site-header">
+  <div class="header-top">
 
-      <nav class="top-links">
-        <a href="{% url 'home' %}">Головна</a>
-        <a href="{% url 'home' %}#menu">Меню</a>
-        <a href="{% url 'checkout' %}">Залишити відгук</a>
-      </nav>
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static 'menu/5287253502323265526.jpg' %}" alt="Logo" class="logo-img">
+    </a>
 
-      <div class="header-actions">
-        <a href="{% url 'cart' %}" class="cart-btn">Кошик <span class="cart-count">{% if request.session.cart %}{{ request.session.cart|length }}{% else %}0{% endif %}</span></a>
-        <a href="/admin/" class="admin-link">Адмін</a>
-      </div>
+
+    <nav class="top-links">
+      <a href="{% url 'home' %}">Головна</a>
+      <a href="{% url 'menu' %}">Меню</a>
+      <a href="{% url 'checkout' %}">Залишити відгук</a>
+    </nav>
+
+    <!-- ACTIONS -->
+    <div class="header-actions">
+      <a href="{% url 'cart' %}" class="cart-btn">
+        Кошик
+        <span class="cart-count">
+          {% if request.session.cart %}
+            {{ request.session.cart|length }}
+          {% else %}
+            0
+          {% endif %}
+        </span>
+      </a>
+      <a href="/admin/" class="admin-link">Адмін</a>
     </div>
 
-    <div id="menu" class="categories-strip">
-      {% for c in categories %}
-        <a class="cat-item" href="{{ c.get_absolute_url }}">{{ c.title }}</a>
-      {% endfor %}
-    </div>
-  </header>
+  </div>
 
-  <main class="page-content">
-    {% block content %}{% endblock %}
-  </main>
+  <!-- CATEGORIES STRIP -->
+  <div class="categories-strip">
+    {% for c in categories %}
+      <a href="{{ c.get_absolute_url }}" class="cat-item">
+        {{ c.title }}
+      </a>
+    {% endfor %}
+  </div>
+</header>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>© Philosopher-and-Bottle — Доставка та меню</div>
-      <div>Контакти • Політика конфіденційності</div>
-    </div>
-  </footer>
+<main class="page-content">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© Philosopher-and-Bottle</div>
+    <div>Доставка • Меню • Відгуки</div>
+  </div>
+</footer>
+
 </body>
 </html>

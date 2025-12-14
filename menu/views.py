@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Order, OrderItem
+from .models import Product, Order, OrderItem, Category
 from django.contrib import messages
 
 
@@ -7,19 +7,37 @@ def index(request):
     products = Product.objects.filter(available=True)
     return render(request, "menu/index.html", {"products": products})
 
+def menu_page(request):
+    categories = Category.objects.all().prefetch_related("products")
+    return render(request, "menu/menu.html", {"categories": categories})
 
-# --- Кошик в session ---
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
 
+def category_view(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    products = Product.objects.filter(category=category, available=True)
+
+    categories = Category.objects.all()  # щоб верхнє меню працювало
+
+    return render(request, 'menu/category.html', {
+        'category': category,
+        'products': products,
+        'categories': categories,
+    })
+
+from django.shortcuts import redirect, get_object_or_404
+from .models import Product
+
+def add_to_cart(request, pk):
     cart = request.session.get('cart', {})
 
-    cart[str(product_id)] = cart.get(str(product_id), 0) + 1
+    pk = str(pk)
+    if pk in cart:
+        cart[pk]['qty'] += 1
+    else:
+        cart[pk] = {'qty': 1}
 
     request.session['cart'] = cart
-    messages.success(request, f"{product.title} додано у кошик!")
-
-    return redirect('home')
+    return redirect('cart')
 
 
 def remove_from_cart(request, product_id):
@@ -34,25 +52,31 @@ def remove_from_cart(request, product_id):
     return redirect('cart')
 
 
+from decimal import Decimal
+from django.shortcuts import render, get_object_or_404
+from .models import Product
+
 def cart_view(request):
     cart = request.session.get('cart', {})
-    cart_items = []
-    total = 0
+    items = []
+    total = Decimal('0.00')
 
-    for product_id, qty in cart.items():
-        product = Product.objects.get(id=product_id)
-        item_total = product.price * qty
-        total += item_total
+    for product_id, item in cart.items():
+        product = get_object_or_404(Product, id=product_id)
+        qty = item['qty']
 
-        cart_items.append({
-            "product": product,
-            "quantity": qty,
-            "item_total": item_total
+        subtotal = product.price * qty
+        total += subtotal
+
+        items.append({
+            'product': product,
+            'qty': qty,
+            'subtotal': subtotal,
         })
 
-    return render(request, "menu/cart.html", {
-        "cart_items": cart_items,
-        "total": total,
+    return render(request, 'menu/cart.html', {
+        'items': items,
+        'total': total
     })
 
 
