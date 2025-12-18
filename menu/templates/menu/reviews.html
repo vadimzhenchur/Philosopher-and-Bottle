@@ -1,0 +1,26 @@
+{% extends 'menu/base.html' %}
+{% block title %}Відгуки — Philosopher-and-Bottle{% endblock %}
+
+{% block content %}
+<section class="reviews-page">
+  <h1>Відгуки наших гостей</h1>
+
+  <form method="post" class="review-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn-primary">Залишити відгук</button>
+  </form>
+
+  <div class="reviews-list">
+    {% for r in reviews %}
+      <div class="review-card">
+        <strong>{{ r.name }}</strong>
+        <span>⭐ {{ r.rating }}/5</span>
+        <p>{{ r.text_review }}</p>
+      </div>
+    {% empty %}
+      <p>Поки що немає відгуків</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

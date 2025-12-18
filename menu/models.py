@@ -62,10 +62,10 @@ class OrderItem(models.Model):
 
 
 class Review(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
     text_review = models.TextField()
+    rating = models.IntegerField(default=5)
     created_at = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"Review #{self.id}"
+        return f"{self.name} — {self.rating}/5"

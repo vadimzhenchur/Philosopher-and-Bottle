@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Order, OrderItem, Category
+from .models import Product, Order, OrderItem, Category, Review
 from django.contrib import messages
+from .forms import ReviewForm, CheckoutForm
 
 
 def index(request):
@@ -81,35 +82,57 @@ def cart_view(request):
 
 
 # --- Оформлення замовлення ---
+
+
+def reviews_page(request):
+    reviews = Review.objects.order_by('-created_at')
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('reviews')
+    else:
+        form = ReviewForm()
+
+    return render(request, 'menu/reviews.html', {
+        'reviews': reviews,
+        'form': form
+    })
+
 def checkout(request):
     cart = request.session.get('cart', {})
+    if not cart:
+        return redirect('menu')
 
-    if request.method == "POST":
-        name = request.POST['name']
-        phone = request.POST['phone']
-        address = request.POST['address']
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            total = Decimal('0')
 
-        order = Order.objects.create(
-            name=name,
-            phone=phone,
-            address=address,
-        )
-
-        total = 0
-        for product_id, qty in cart.items():
-            product = Product.objects.get(id=product_id)
-            total += product.price * qty
-            OrderItem.objects.create(
-                order=order,
-                product=product,
-                quantity=qty,
+            new_order = Order.objects.create(
+                name=form.cleaned_data['name'],
+                phone=form.cleaned_data['phone'],
+                address=form.cleaned_data['address'],
+                total=total
             )
+            for key, item in cart.items():
+                item_db = Product.objects.get(id=key)
+                if item_db:
+                    order_item = OrderItem.objects.create(order=new_order, product=item_db, quantity=item['qty'])
+                    total += Decimal(item['qty'] * item_db.price)
 
-        order.total = total
-        order.save()
+            new_order.total = total
+            new_order.save()
 
-        request.session['cart'] = {}
+            request.session['cart'] = {}
+            return redirect('success')
 
-        return render(request, "menu/success.html", {"order": order})
+    else:
+        form = CheckoutForm()
 
-    return render(request, "menu/checkout.html")
+    return render(request, 'menu/checkout.html', {'form': form})
+
+
+def success_page(request):
+    return render(request, 'menu/success.html')
