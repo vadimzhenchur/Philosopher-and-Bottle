@@ -1,35 +1,54 @@
 {% extends 'menu/base.html' %}
-{% block title %}{{ category.title }} — LA{% endblock %}
+
+{% block title %}{{ category.title }} — Philosopher & Bottle{% endblock %}
 
 {% block content %}
 <section class="category-page">
+
   <div class="category-header">
     <h1>{{ category.title }}</h1>
     <p class="category-sub">Гортай і замовляй — все як треба</p>
   </div>
 
   <div class="products-grid">
-    {% for dish in dishes %}
+
+    {% for product in products %}
       <article class="card">
+
         <div class="card-media">
-          {% if dish.image %}
-            <img src="{{ dish.image.url }}" alt="{{ dish.title }}">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.title }}">
           {% else %}
             <div class="img-fallback">Фото</div>
           {% endif %}
         </div>
+
         <div class="card-body">
-          <h3 class="card-title">{{ dish.title }}</h3>
-          <p class="card-desc">{{ dish.description|truncatewords:20 }}</p>
+          <h3 class="card-title">{{ product.title }}</h3>
+
+          <p class="card-desc">
+            {{ product.description|default:"" |truncatewords:20 }}
+          </p>
+
           <div class="card-meta">
-            <div class="price">{{ dish.price }} ₴</div>
-            <a href="{% url 'add_to_cart' dish.id %}" class="order-btn link-btn">Замовити</a>
+            <div class="price">{{ product.price }} ₴</div>
+
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="qty" value="1">
+              <button class="order-btn">Замовити</button>
+            </form>
+
           </div>
         </div>
+
       </article>
+
     {% empty %}
       <p class="empty">Тут поки немає страв.</p>
     {% endfor %}
+
   </div>
+
 </section>
 {% endblock %}

@@ -17,23 +17,17 @@
       <img src="{% static 'menu/5287253502323265526.jpg' %}" alt="Logo" class="logo-img">
     </a>
 
-
     <nav class="top-links">
       <a href="{% url 'home' %}">Головна</a>
       <a href="{% url 'menu' %}">Меню</a>
       <a href="{% url 'checkout' %}">Залишити відгук</a>
     </nav>
 
-    <!-- ACTIONS -->
     <div class="header-actions">
       <a href="{% url 'cart' %}" class="cart-btn">
         Кошик
         <span class="cart-count">
-          {% if request.session.cart %}
-            {{ request.session.cart|length }}
-          {% else %}
-            0
-          {% endif %}
+          {{ request.session.cart|length|default:0 }}
         </span>
       </a>
       <a href="/admin/" class="admin-link">Адмін</a>
@@ -41,10 +35,10 @@
 
   </div>
 
-  <!-- CATEGORIES STRIP -->
+  <!-- смуга категорій -->
   <div class="categories-strip">
     {% for c in categories %}
-      <a href="{{ c.get_absolute_url }}" class="cat-item">
+      <a href="{% url 'category' c.slug %}" class="cat-item">
         {{ c.title }}
       </a>
     {% endfor %}
