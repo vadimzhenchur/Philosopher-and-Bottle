@@ -19,7 +19,7 @@
 
     <nav class="top-links">
       <a href="{% url 'home' %}">Головна</a>
-      <a href="{% url 'menu' %}">Меню</a>
+      <a href="{% url 'home' %}#menu">Меню</a>
       <a href="{% url 'checkout' %}">Залишити відгук</a>
     </nav>
 
@@ -35,10 +35,10 @@
 
   </div>
 
-  <!-- смуга категорій -->
+
   <div class="categories-strip">
     {% for c in categories %}
-      <a href="{% url 'category' c.slug %}" class="cat-item">
+      <a href="{% url 'category' c.id %}" class="cat-item">
         {{ c.title }}
       </a>
     {% endfor %}

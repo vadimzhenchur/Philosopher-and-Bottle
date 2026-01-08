@@ -1,54 +1,69 @@
 {% extends 'menu/base.html' %}
-
-{% block title %}{{ category.title }} — Philosopher & Bottle{% endblock %}
+{% block title %}{{ category.title }} — LA{% endblock %}
 
 {% block content %}
 <section class="category-page">
-
   <div class="category-header">
     <h1>{{ category.title }}</h1>
     <p class="category-sub">Гортай і замовляй — все як треба</p>
   </div>
 
   <div class="products-grid">
-
-    {% for product in products %}
-      <article class="card">
-
+    {% for dish in dishes %}
+      <article class="card zoom-card">
         <div class="card-media">
-          {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.title }}">
+          {% if dish.image %}
+            <img src="{{ dish.image.url }}" alt="{{ dish.title }}">
           {% else %}
             <div class="img-fallback">Фото</div>
           {% endif %}
         </div>
 
         <div class="card-body">
-          <h3 class="card-title">{{ product.title }}</h3>
-
-          <p class="card-desc">
-            {{ product.description|default:"" |truncatewords:20 }}
-          </p>
+          <h3 class="card-title">{{ dish.title }}</h3>
+          <p class="card-desc">{{ dish.description|truncatewords:20 }}</p>
 
           <div class="card-meta">
-            <div class="price">{{ product.price }} ₴</div>
-
-            <form method="post" action="{% url 'add_to_cart' product.id %}">
-              {% csrf_token %}
-              <input type="hidden" name="qty" value="1">
-              <button class="order-btn">Замовити</button>
-            </form>
-
+            <div class="price">{{ dish.price }} ₴</div>
+            <a href="{% url 'add_to_cart' dish.id %}" class="order-btn">
+              Замовити
+            </a>
           </div>
         </div>
-
       </article>
-
     {% empty %}
       <p class="empty">Тут поки немає страв.</p>
     {% endfor %}
-
   </div>
-
 </section>
+
+<!-- OVERLAY -->
+<div class="card-overlay" id="cardOverlay">
+  <span class="close-card" id="closeCard">×</span>
+  <div id="cardContainer"></div>
+</div>
+
+<script>
+  const overlay = document.getElementById('cardOverlay');
+  const container = document.getElementById('cardContainer');
+  const closeBtn = document.getElementById('closeCard');
+
+  document.querySelectorAll('.zoom-card').forEach(card => {
+    const media = card.querySelector('.card-media');
+
+    media.addEventListener('click', e => {
+      e.stopPropagation();
+
+      container.innerHTML = '';
+      container.appendChild(card.cloneNode(true));
+      overlay.classList.add('active');
+    });
+  });
+
+  closeBtn.onclick = () => overlay.classList.remove('active');
+
+  overlay.onclick = e => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  };
+</script>
 {% endblock %}
