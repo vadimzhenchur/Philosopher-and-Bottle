@@ -19,7 +19,7 @@
 
     <nav class="top-links">
       <a href="{% url 'home' %}">Головна</a>
-      <a href="{% url 'home' %}#menu">Меню</a>
+      <a href="#menu">Меню</a>
       <a href="{% url 'checkout' %}">Залишити відгук</a>
     </nav>
 
@@ -27,7 +27,11 @@
       <a href="{% url 'cart' %}" class="cart-btn">
         Кошик
         <span class="cart-count">
-          {{ request.session.cart|length|default:0 }}
+          {% if request.session.cart %}
+            {{ request.session.cart|length }}
+          {% else %}
+            0
+          {% endif %}
         </span>
       </a>
       <a href="/admin/" class="admin-link">Адмін</a>
@@ -35,8 +39,8 @@
 
   </div>
 
-
-  <div class="categories-strip">
+  <!-- CATEGORIES -->
+  <div id="menu" class="categories-strip">
     {% for c in categories %}
       <a href="{% url 'category' c.id %}" class="cat-item">
         {{ c.title }}

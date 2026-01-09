@@ -1,31 +1,58 @@
 {% extends 'menu/base.html' %}
+{% block title %}Оформлення замовлення{% endblock %}
 
 {% block content %}
-<h1>Оформлення замовлення</h1>
+<section class="checkout-page">
+  <h1>Оформлення замовлення</h1>
 
-<form method="POST" class="checkout-form">
-    {% csrf_token %}
+  {% if items %}
+    <div class="checkout-layout">
 
-    <input type="text" name="name" placeholder="Ваше ім'я" required>
-    <input type="text" name="phone" placeholder="Телефон" required>
-    <input type="text" name="address" placeholder="Адреса доставки" required>
+      <!-- ФОРМА -->
+      <form method="post" class="checkout-form">
+        {% csrf_token %}
 
-    <button type="submit" class="btn">Підтвердити замовлення</button>
-</form>
+        <label>
+          Імʼя
+          <input type="text" name="name" required>
+        </label>
 
-<style>
-.checkout-form {
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+        <label>
+          Телефон
+          <input type="text" name="phone" required>
+        </label>
 
-.checkout-form input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-</style>
+        <label>
+          Адреса доставки
+          <textarea name="address" required></textarea>
+        </label>
+
+        <button type="submit" class="order-btn big">
+          Підтвердити замовлення
+        </button>
+      </form>
+
+      <!-- ПІДСУМОК -->
+      <div class="checkout-summary">
+        <h3>Ваше замовлення</h3>
+
+        {% for item in items %}
+          <div class="summary-row">
+            <span>{{ item.title }} × {{ item.qty }}</span>
+            <span>{{ item.subtotal }} ₴</span>
+          </div>
+        {% endfor %}
+
+        <hr>
+        <div class="summary-total">
+          <strong>Разом:</strong>
+          <strong>{{ total }} ₴</strong>
+        </div>
+      </div>
+
+    </div>
+  {% else %}
+    <p>Кошик порожній.</p>
+  {% endif %}
+</section>
 {% endblock %}
