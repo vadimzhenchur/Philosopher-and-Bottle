@@ -2,57 +2,58 @@
 {% block title %}Оформлення замовлення{% endblock %}
 
 {% block content %}
-<section class="checkout-page">
-  <h1>Оформлення замовлення</h1>
+<section class="checkout">
+  <h1 class="checkout-title">Оформлення замовлення</h1>
 
   {% if items %}
-    <div class="checkout-layout">
+  <div class="checkout-grid">
 
-      <!-- ФОРМА -->
-      <form method="post" class="checkout-form">
-        {% csrf_token %}
+    <!-- LEFT: FORM -->
+    <form method="post" class="checkout-form">
+      {% csrf_token %}
 
-        <label>
-          Імʼя
-          <input type="text" name="name" required>
-        </label>
+      <h2>Дані для доставки</h2>
 
-        <label>
-          Телефон
-          <input type="text" name="phone" required>
-        </label>
-
-        <label>
-          Адреса доставки
-          <textarea name="address" required></textarea>
-        </label>
-
-        <button type="submit" class="order-btn big">
-          Підтвердити замовлення
-        </button>
-      </form>
-
-      <!-- ПІДСУМОК -->
-      <div class="checkout-summary">
-        <h3>Ваше замовлення</h3>
-
-        {% for item in items %}
-          <div class="summary-row">
-            <span>{{ item.title }} × {{ item.qty }}</span>
-            <span>{{ item.subtotal }} ₴</span>
-          </div>
-        {% endfor %}
-
-        <hr>
-        <div class="summary-total">
-          <strong>Разом:</strong>
-          <strong>{{ total }} ₴</strong>
-        </div>
+      <div class="field">
+        <label>Імʼя</label>
+        <input type="text" name="name" placeholder="Ваше імʼя" required>
       </div>
 
+      <div class="field">
+        <label>Телефон</label>
+        <input type="text" name="phone" placeholder="+380..." required>
+      </div>
+
+      <div class="field">
+        <label>Адреса</label>
+        <textarea name="address" placeholder="Вулиця, будинок, квартира" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary">
+        Підтвердити замовлення
+      </button>
+    </form>
+
+    <!-- RIGHT: SUMMARY -->
+    <div class="checkout-summary">
+      <h2>Ваше замовлення</h2>
+
+      {% for item in items %}
+        <div class="summary-item">
+          <span>{{ item.title }} × {{ item.qty }}</span>
+          <strong>{{ item.subtotal }} ₴</strong>
+        </div>
+      {% endfor %}
+
+      <div class="summary-total">
+        <span>Разом</span>
+        <span>{{ total }} ₴</span>
+      </div>
     </div>
+
+  </div>
   {% else %}
-    <p>Кошик порожній.</p>
+    <p>Кошик порожній 😢</p>
   {% endif %}
 </section>
 {% endblock %}
