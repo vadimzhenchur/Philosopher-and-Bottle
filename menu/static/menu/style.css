@@ -1,4 +1,19 @@
-/* ===== RESET ===== */
+/* ===============================
+   Philosopher & Bottle – Pub Style
+   =============================== */
+
+:root {
+  --bg-main: #0f0f0f;
+  --bg-card: #181818;
+  --bg-header: #121212;
+  --gold: #c9a24d;
+  --gold-soft: #e0c878;
+  --text-main: #f5f5f5;
+  --text-muted: #aaaaaa;
+  --border-dark: #2a2a2a;
+}
+
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -6,172 +21,229 @@
 }
 
 body {
-  font-family: "Inter", system-ui, sans-serif;
-  background: #f6f6f4;
-  color: #1c1c1c;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Georgia', 'Times New Roman', serif;
   line-height: 1.6;
 }
 
-/* ===== HEADER ===== */
+/* ================= HEADER ================= */
+
 .site-header {
-  background: #111;
-  color: #fff;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border-dark);
 }
 
 .header-top {
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 40px;
 }
 
 .logo-img {
-  height: 48px;
+  height: 60px;
+  filter: drop-shadow(0 0 6px rgba(201,162,77,.5));
 }
 
 .top-links a {
-  color: #ddd;
-  margin: 0 12px;
+  color: var(--text-main);
   text-decoration: none;
-  font-weight: 500;
+  margin: 0 14px;
+  font-size: 16px;
+  position: relative;
 }
 
-.top-links a:hover {
-  color: #fff;
+.top-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: .3s;
 }
 
-.header-actions a {
-  color: #fff;
-  margin-left: 16px;
-  text-decoration: none;
-  font-weight: 500;
+.top-links a:hover::after {
+  width: 100%;
 }
+
+/* ================= CART ================= */
 
 .cart-btn {
-  background: #c9a24d;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
   padding: 8px 14px;
-  border-radius: 20px;
-  color: #111 !important;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: .3s;
 }
 
-/* ===== CATEGORIES ===== */
+.cart-btn:hover {
+  background: var(--gold);
+  color: #000;
+}
+
+.cart-count {
+  margin-left: 6px;
+  font-weight: bold;
+}
+
+.card-weight {
+  font-size: 14px;
+  color: #aaa;
+  margin: 4px 0 8px;
+}
+/* ================= CATEGORIES ================= */
+
 .categories-strip {
   display: flex;
-  gap: 12px;
-  padding: 12px 40px;
-  background: #1a1a1a;
+  justify-content: center;
+  gap: 18px;
+  padding: 12px;
+  background: #0b0b0b;
 }
 
 .cat-item {
-  color: #c9a24d;
+  color: var(--text-muted);
   text-decoration: none;
-  font-size: 14px;
-  letter-spacing: 0.5px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-dark);
+  transition: .3s;
 }
 
 .cat-item:hover {
-  text-decoration: underline;
+  color: var(--gold);
+  border-color: var(--gold);
 }
 
-/* ===== CONTENT ===== */
+/* ================= CONTENT ================= */
+
 .page-content {
-  padding: 40px;
   max-width: 1200px;
   margin: auto;
+  padding: 40px 20px;
 }
 
-/* ===== CARDS ===== */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
-}
+/* ================= DISH CARD ================= */
 
-.card {
-  background: #fff;
+.dish-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-dark);
   border-radius: 14px;
   padding: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-  transition: transform .25s ease, box-shadow .25s ease;
+  transition: .3s;
 }
 
-.card:hover {
+.dish-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  border-color: var(--gold);
+  box-shadow: 0 10px 30px rgba(0,0,0,.6);
 }
 
-.card h3 {
-  margin-bottom: 10px;
+.dish-title {
+  font-size: 20px;
+  color: var(--gold-soft);
 }
 
-.card .price {
-  color: #c9a24d;
-  font-weight: 600;
+.dish-price {
+  font-size: 18px;
+  margin-top: 8px;
 }
 
-/* ===== BUTTONS ===== */
-.btn {
+.dish-btn {
+  margin-top: 14px;
+  background: var(--gold);
+  color: #000;
+  padding: 10px;
+  border-radius: 8px;
   display: inline-block;
-  background: #111;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 20px;
   text-decoration: none;
-  margin-top: 12px;
+  font-weight: bold;
+  transition: .3s;
 }
 
-.btn:hover {
-  background: #c9a24d;
-  color: #111;
+.dish-btn:hover {
+  background: var(--gold-soft);
 }
 
-/* ===== CHECKOUT ===== */
+/* ================= CART PAGE ================= */
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.cart-total {
+  font-size: 22px;
+  color: var(--gold);
+  text-align: right;
+  margin-top: 20px;
+}
+
+/* ================= CHECKOUT ================= */
+
 .checkout-box {
-  background: #fff;
-  padding: 32px;
+  background: var(--bg-card);
+  padding: 30px;
   border-radius: 16px;
-  max-width: 520px;
+  border: 1px solid var(--border-dark);
+  max-width: 500px;
   margin: auto;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
 }
 
 .checkout-box h2 {
-  margin-bottom: 20px;
+  color: var(--gold);
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .checkout-box input,
 .checkout-box textarea {
   width: 100%;
+  background: #0d0d0d;
+  border: 1px solid var(--border-dark);
+  color: white;
   padding: 12px;
+  border-radius: 8px;
   margin-bottom: 14px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
 }
 
 .checkout-box button {
   width: 100%;
-  background: #c9a24d;
+  background: var(--gold);
   border: none;
   padding: 14px;
-  border-radius: 24px;
+  border-radius: 10px;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
 }
 
 .checkout-box button:hover {
-  background: #b08d3f;
+  background: var(--gold-soft);
 }
 
-/* ===== FOOTER ===== */
+/* ================= FOOTER ================= */
+
 .site-footer {
-  background: #111;
-  color: #aaa;
+  background: #0b0b0b;
+  border-top: 1px solid var(--border-dark);
   padding: 20px;
-  margin-top: 60px;
-  text-align: center;
+  margin-top: 40px;
 }
 
-.card:active {
-  transform: scale(0.97);
+.footer-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
 }

@@ -1,14 +1,7 @@
 {% extends 'menu/base.html' %}
-{% block title %}Дякуємо!{% endblock %}
 
 {% block content %}
-<section class="success-page">
-  <h1>Замовлення успішно оформлено 🎉</h1>
-  <p>Наш менеджер звʼяжеться з вами найближчим часом.</p>
-
-  <div class="success-actions">
-    <a href="{% url 'menu' %}" class="btn-secondary">Повернутись до меню</a>
-    <a href="{% url 'reviews' %}" class="btn-primary">Залишити відгук</a>
-  </div>
-</section>
+<h1>Дякуємо за замовлення 🍻</h1>
+<p>Номер замовлення: {{ order.id }}</p>
+<a href="{% url 'home' %}">На головну</a>
 {% endblock %}

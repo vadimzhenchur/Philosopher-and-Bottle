@@ -1,40 +1,23 @@
 {% extends 'menu/base.html' %}
-{% load static %}
-
-{% block title %}Меню — Philosopher-and-Bottle {% endblock %}
 
 {% block content %}
-<section class="menu-page">
-    <h1 class="menu-title">Меню</h1>
+{% for category in categories %}
+  <h2 class="menu-category-title">{{ category.title }}</h2>
 
-    {% for category in categories %}
-        <div class="menu-category">
-            <h2>{{ category.title }}</h2>
-
-            <div class="menu-grid">
-                {% for product in category.products.all %}
-                    <div class="menu-item">
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.title }}">
-                        {% endif %}
-
-                        <div class="menu-info">
-                            <h3>{{ product.title }}</h3>
-                            <p>{{ product.description }}</p>
-                            <div class="menu-bottom">
-                                <span class="price">{{ product.price }} ₴</span>
-                                <form action="{% url 'add_to_cart' product.pk %}" method="post">
-                                    {% csrf_token %}
-                                    <button>Замовити</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p>Немає позицій</p>
-                {% endfor %}
-            </div>
-        </div>
+  <div class="products-grid">
+    {% for dish in dishes %}
+      {% if dish.category_id == category.id %}
+        <article class="card">
+          {% if dish.image %}
+            <img src="{{ dish.image.url }}">
+          {% endif %}
+          <h3>{{ dish.title }}</h3>
+          <p>{{ dish.description }}</p>
+          <div class="price">{{ dish.price }} ₴</div>
+          <a href="{% url 'add_to_cart' dish.id %}" class="order-btn">Замовити</a>
+        </article>
+      {% endif %}
     {% endfor %}
-</section>
+  </div>
+{% endfor %}
 {% endblock %}

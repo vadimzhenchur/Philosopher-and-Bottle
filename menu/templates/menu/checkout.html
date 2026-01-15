@@ -1,59 +1,13 @@
 {% extends 'menu/base.html' %}
-{% block title %}Оформлення замовлення{% endblock %}
 
 {% block content %}
-<section class="checkout">
-  <h1 class="checkout-title">Оформлення замовлення</h1>
+<h1>Оформлення замовлення</h1>
 
-  {% if items %}
-  <div class="checkout-grid">
-
-    <!-- LEFT: FORM -->
-    <form method="post" class="checkout-form">
-      {% csrf_token %}
-
-      <h2>Дані для доставки</h2>
-
-      <div class="field">
-        <label>Імʼя</label>
-        <input type="text" name="name" placeholder="Ваше імʼя" required>
-      </div>
-
-      <div class="field">
-        <label>Телефон</label>
-        <input type="text" name="phone" placeholder="+380..." required>
-      </div>
-
-      <div class="field">
-        <label>Адреса</label>
-        <textarea name="address" placeholder="Вулиця, будинок, квартира" required></textarea>
-      </div>
-
-      <button type="submit" class="btn-primary">
-        Підтвердити замовлення
-      </button>
-    </form>
-
-    <!-- RIGHT: SUMMARY -->
-    <div class="checkout-summary">
-      <h2>Ваше замовлення</h2>
-
-      {% for item in items %}
-        <div class="summary-item">
-          <span>{{ item.title }} × {{ item.qty }}</span>
-          <strong>{{ item.subtotal }} ₴</strong>
-        </div>
-      {% endfor %}
-
-      <div class="summary-total">
-        <span>Разом</span>
-        <span>{{ total }} ₴</span>
-      </div>
-    </div>
-
-  </div>
-  {% else %}
-    <p>Кошик порожній 😢</p>
-  {% endif %}
-</section>
+<form method="post">
+  {% csrf_token %}
+  <input name="name" placeholder="Імʼя" required>
+  <input name="phone" placeholder="Телефон" required>
+  <input name="address" placeholder="Адреса" required>
+  <button type="submit">Замовити</button>
+</form>
 {% endblock %}

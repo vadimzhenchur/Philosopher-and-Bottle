@@ -22,6 +22,7 @@
         <div class="card-body">
           <h3 class="card-title">{{ dish.title }}</h3>
           <p class="card-desc">{{ dish.description|truncatewords:20 }}</p>
+          <p class="card-weight"> Вага: {{dish.weight }} r</p>
 
           <div class="card-meta">
             <div class="price">{{ dish.price }} ₴</div>
